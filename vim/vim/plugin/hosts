@@ -1,0 +1,20 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost 
+fe80::1%lo0	localhost
+#
+#nicoseiga
+#127.0.0.1 seigadev.o-in.nicovideo.jp
+#127.0.0.1 seigadev-storage1.o-in.nicovideo.jp
+#127.0.0.1 seigadev-storage2.o-in.nicovideo.jp
+#127.0.0.1 seigadev-deliver.o-in.nicovideo.jp
+#127.0.0.1 seigadev-manage.o-in.nicovideo.jp
+#127.0.0.1 seigadev-mgtool.o-in.nicovideo.jp
+#127.0.0.1 m.dev.nicoseiga.jp
+#127.0.0.1 eco.dev.nicoseiga.jp

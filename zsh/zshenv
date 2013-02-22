@@ -1,0 +1,60 @@
+# -*- mode: sh; encoding: utf-8; tab-width: 4; indent-tabs-mode: nil; -*-
+
+#typeset -U path
+#path=(
+#    $HOME/local/sbin(N-/)
+#    $HOME/local/bin(N-/)
+#    $path
+#)
+
+typeset -xT SUDO_PATH sudo_path
+sudo_path=(
+    /usr/local/sbin(N-/)
+    /usr/sbin(N-/)
+    /sbin(N-/)
+    /opt/sbin(N-/)
+)
+
+export EDITOR=`if where vim > /dev/null; then
+    echo =vim
+else
+    echo =vi
+fi`
+
+export PAGER=`if where lv > /dev/null; then
+    echo =lv
+else
+    echo =less
+fi`
+
+# vim:set ft=sh fenc=utf-8 ts=4 sw=4 sts=4 et:
+
+# edited by ssd
+typeset -U path
+path=(	
+    	$HOME/local/sbin(N-/)
+    	$HOME/local/bin(N-/)
+    	$path
+		/usr/local/mysql/bin/(N-/)
+		/usr/local/mysql/support-files/(N-/)
+)
+	
+
+##### java encoding #####
+export JAVA_OPTIONS="-Dfile.encodeing=UTF-8"
+alias javac="javac -J-Dfile.encoding=utf-8"
+alias java="java -Dfile.encoding=UTF=8"
+
+##### apache_ant config #####
+alias ant="LC_ALL=en ant"
+alias ctags="/usr/local/Library/LinkedKegs/ctags"
+
+#####  zsh completion   #####
+#source .zsh/git-completion.bash
+#fpath=($HOME/.zsh/zsh-competions/src $fpath)
+
+#####  brew completion   #####
+f=(~/.zsh/functions/ $f)
+
+#####  phpunit libdir   #####
+export PHPUNIT_LIBDIR=/usr/lib/php/pear/data

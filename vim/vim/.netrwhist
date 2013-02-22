@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Development/Projects/nicoseiga/app_manage/action/Cli/Illust/Category'
+let g:netrw_dirhist_2='/Applications/MacVim.app'
+let g:netrw_dirhist_3='/Development/Projects/nicoseiga/app_front/template/manga'
+let g:netrw_dirhist_4='/Development/Projects/nicoseiga/app_front/template/comic'
+let g:netrw_dirhist_5='/Development/Projects/nicoseiga/app_front/view/Ajax/Error'
+let g:netrw_dirhist_6='/Development/Projects/nicoseiga/app_front/view/Ajax'
+let g:netrw_dirhist_7='/Development/Projects/nicoseiga/app_front/template/manga/list'
+let g:netrw_dirhist_8='/Development/Projects/nicoseiga/app_front/view/Ajax/Error'
+let g:netrw_dirhist_9='/Users/shunya_shishido'

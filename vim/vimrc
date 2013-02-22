@@ -1,0 +1,146 @@
+"----------------------------------------------"
+" bundle
+"----------------------------------------------"
+set nocompatible
+filetype off
+set rtp+=~/.vim/vundle.git/
+call vundle#rc()
+filetype plugin on
+"----------------"
+" syntax
+"----------------"
+Bundle 'groenewege/vim-less'
+Bundle 'endel/actionscript.vim'
+Bundle 'cespare/mxml.vim'
+"----------------"
+" git
+"----------------"
+Bundle 'gregsexton/gitv'
+Bundle 'tpope/vim-fugitive'
+"----------------"
+" colorscheme
+"----------------"
+Bundle 'ujihisa/unite-colorscheme'
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'tomasr/molokai'
+Bundle 'altercation/solarized'
+Bundle 'vim-scripts/newspaper.vim'
+"----------------"
+" Shougo
+"----------------"
+Bundle 'unite.vim'
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimshell'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
+"----------------"
+" others
+"----------------"
+Bundle 'The-NERD-tree'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'kien/ctrlp.vim'
+Bundle 'majutsushi/tagbar'
+Bundle 'thinca/vim-quickrun'
+Bundle 'surround.vim'
+Bundle 'yanktmp.vim'
+
+"----------------------------------------------"
+" general
+"----------------------------------------------"
+syntax on
+set number
+set title
+set smartindent
+set autoindent
+set showmatch
+setlocal omnifunc=syntaxcomplete#Complete
+set guifont=Ubuntu\ \Mono\ \12
+colorscheme jellybeans
+imap <C-f> <C-x><C-o>
+set binary
+set noeol
+set nobackup
+"----------------"
+" tab
+"----------------"
+set expandtab
+set ts=4
+set softtabstop=4
+set shiftwidth=4
+highlight TagKey guibg=#b5d68f
+match TagKey /	/
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+"----------------"
+" hilight of line "
+"----------------"
+set cursorline
+highlight CursorLine ctermbg=Black
+"----------------"
+" yanktmp "
+"----------------"
+map <silent> sy :call YanktmpYank()<CR> 
+map <silent> sp :call YanktmpPaste_p()<CR> 
+map <silent> sP :call YanktmpPaste_P()<CR> 
+
+"----------------------------------------------"
+" unite.vim
+"----------------------------------------------"
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+let g:unite_enable_start_insert=1
+
+"----------------------------------------------"
+" unite.colorscheme
+"----------------------------------------------"
+nnoremap <silent> ,uc :<C-u>Unite colorscheme -auto-preview<CR>
+
+"----------------------------------------------"
+" vim-indent-cuides
+"----------------------------------------------"
+nmap <silent> ,ig <Plug>IndentGuidesToggle
+"GUI"
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black   ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=black ctermbg=black
+
+"----------------------------------------------"
+"AS3
+"----------------------------------------------"
+"au BufNewFile,BufRead *.as set ft=actionscript
+
+"----------------------------------------------"
+" neocmplcache
+"----------------------------------------------"
+let g:neocomplcache_enable_at_startup = 1
+
+"----------------------------------------------"
+" tagbar
+"----------------------------------------------"
+nmap <F8> :TagbarToggle<CR>
+
+"----------------------------------------------"
+" ctrlp
+"----------------------------------------------"
+"----------------"
+" ignore files
+"----------------"
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+"----------------"
+" open with a new tab
+"----------------"
+let g:ctrlp_prompt_mappings = {
+  \ 'AcceptSelection("e")': [],
+  \ 'AcceptSelection("t")': ['<cr>', '<c-m>'],
+  \ }
