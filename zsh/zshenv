@@ -31,19 +31,24 @@ fi`
 
 # edited by ssd
 typeset -U path
-path=(	
+path=(
+        #nodebrew
+        $HOME/.nodebrew/current/bin(N-/)
     	$HOME/local/sbin(N-/)
     	$HOME/local/bin(N-/)
     	$path
 		/usr/local/mysql/bin/(N-/)
 		/usr/local/mysql/support-files/(N-/)
+        /Development/SDK/FlexSDK/bin(N-/)
+        /Development/SDK/swfmill-0.3.2/(N-/)
+        /Development/Projects/nicoseiga/solr/setting(N-/)
 )
 	
 
 ##### java encoding #####
 export JAVA_OPTIONS="-Dfile.encodeing=UTF-8"
 alias javac="javac -J-Dfile.encoding=utf-8"
-alias java="java -Dfile.encoding=UTF=8"
+alias java="java -Dfile.encoding=UTF-8"
 
 ##### apache_ant config #####
 alias ant="LC_ALL=en ant"
@@ -58,3 +63,9 @@ f=(~/.zsh/functions/ $f)
 
 #####  phpunit libdir   #####
 export PHPUNIT_LIBDIR=/usr/lib/php/pear/data
+
+#####  node_brew  #####
+#export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+#####  selenium  #####
+#export SELENIUM_LIBRARY=/Development/Tools/lib/

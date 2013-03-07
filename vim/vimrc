@@ -22,6 +22,7 @@ Bundle 'tpope/vim-fugitive'
 "----------------"
 Bundle 'ujihisa/unite-colorscheme'
 Bundle 'nanotech/jellybeans.vim'
+Bundle 'jelera/vim-gummybears-colorscheme'
 Bundle 'tomasr/molokai'
 Bundle 'altercation/solarized'
 Bundle 'vim-scripts/newspaper.vim'
@@ -43,7 +44,9 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'thinca/vim-quickrun'
 Bundle 'surround.vim'
-Bundle 'yanktmp.vim'
+Bundle 'sjl/gundo.vim'
+Bundle 'vim-scripts/yanktmp.vim'
+Bundle 'vim-scripts/grep.vim'
 
 "----------------------------------------------"
 " general
@@ -55,7 +58,7 @@ set smartindent
 set autoindent
 set showmatch
 setlocal omnifunc=syntaxcomplete#Complete
-set guifont=Ubuntu\ \Mono\ \12
+"set guifont=Ubuntu\ \Mono\ \12
 colorscheme jellybeans
 imap <C-f> <C-x><C-o>
 set binary
@@ -73,13 +76,21 @@ match TagKey /	/
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 "----------------"
+"Escの2回押しでハイライト消去
+"----------------"
+"nmap ;nohlsearch
+"----------------"
+" tab:extension
+"----------------"
+"----------------"
 " hilight of line "
 "----------------"
 set cursorline
 highlight CursorLine ctermbg=Black
-"----------------"
+
+"----------------------------------------------"
 " yanktmp "
-"----------------"
+"----------------------------------------------"
 map <silent> sy :call YanktmpYank()<CR> 
 map <silent> sp :call YanktmpPaste_p()<CR> 
 map <silent> sP :call YanktmpPaste_P()<CR> 
@@ -144,3 +155,13 @@ let g:ctrlp_prompt_mappings = {
   \ 'AcceptSelection("e")': [],
   \ 'AcceptSelection("t")': ['<cr>', '<c-m>'],
   \ }
+
+
+"----------------------------------------------"
+" grep.vim
+"----------------------------------------------"
+" :Gb でGrepBufferする
+" command! -nargs=1 Gb :GrepBuffer 
+" カーソル下の単語をGrepBufferする
+"nnoremap :GrepBuffer
+"minibufexpl.vim

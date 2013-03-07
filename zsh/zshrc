@@ -210,6 +210,6 @@ fpath=(~/.zsh/fucntions/Completion ${fpath})
 #---------------------
 # source local rcfile
 #---------------------
-if [ -f ~/.zsh/zshrc_local ]; then
-    source ~/.zsh/.zshrc_local
-fi
+#if [ -f ~/.zsh/.zshrc_local ]; then
+#    source ~/.zsh/.zshrc_local
+#fi
