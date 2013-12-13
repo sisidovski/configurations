@@ -32,8 +32,9 @@ fi`
 # edited by ssd
 typeset -U path
 path=(
+        /user/local/bin(N-/)
         #nodebrew
-        $HOME/.nodebrew/current/bin(N-/)
+      $HOME/.nodebrew/current/bin(N-/)
     	$HOME/local/sbin(N-/)
     	$HOME/local/bin(N-/)
     	$path
@@ -42,13 +43,23 @@ path=(
         /Development/SDK/FlexSDK/bin(N-/)
         /Development/SDK/swfmill-0.3.2/(N-/)
         /Development/Projects/nicoseiga/solr/setting(N-/)
+        #npm
+        /usr/local/share/npm/bin(N-/)
 )
 	
 
 ##### java encoding #####
+#export JAVA_HOME="/Library/Java/Home"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_40.jdk/Contents/Home"
+export PATH="$PATH:$JAVA_HOME/bin"
 export JAVA_OPTIONS="-Dfile.encodeing=UTF-8"
 alias javac="javac -J-Dfile.encoding=utf-8"
 alias java="java -Dfile.encoding=UTF-8"
+
+##### groovy encoding #####
+#export JAVA_HOME="/Library/Java/Home"
+export GRAILS_HOME="/usr/local/Library/LinkedKegs/grails/libexec"
+export PATH="$PATH:$GRAILS_HOME/bin"
 
 ##### apache_ant config #####
 alias ant="LC_ALL=en ant"

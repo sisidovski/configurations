@@ -48,7 +48,7 @@ autoload -U ztodo
 autoload -U zmv
 autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
 
-export PROMPT='[%U%{%(?.${fg[yellow]}.${fg[white]})%}%h%b%{${reset_color}%}|%{%U${fg[yellow]}%}%d%b%{${reset_color}%}]%(1j.%B%{${fg[green]}%}%#%b%{${reset_color}%}.->) '
+export PROMPT='[%U%{%(?.${fg[yellow]}.${fg[white]})%}%h%b%{${reset_color}%}|%{%U${fg[yellow]}%}%d%b%{${reset_color}%}]%(1j.%B%{${fg[green]}%}%#%b%{${reset_color}%}. >>> )'
 export RPROMPT='(r:%? s:`echo $(( \`dirs -p | wc -l\` - 1))` j:%j%)'
 export PROMPT2='%B%{${fg[black]}%}--->%b%{${reset_color}%} '
 export RPROMPT2='%_'
@@ -197,6 +197,7 @@ bindkey "\e[Z" reverse-menu-complete
 
 # Completion configuration
 fpath=(~/.zsh/fucntions/Completion ${fpath})
+fpath=(~/.zsh-completions $fpath)
 
 #for f in $HOME/.zsh/*(N); do
 #    source f
@@ -207,9 +208,20 @@ fpath=(~/.zsh/fucntions/Completion ${fpath})
 #------------------------------------------
 # edited by ssd
 #------------------------------------------
+alias mysql='mysql --auto-rehash'
 #---------------------
 # source local rcfile
 #---------------------
 #if [ -f ~/.zsh/.zshrc_local ]; then
 #    source ~/.zsh/.zshrc_local
 #fi
+#
+
+
+#------------------------------------------
+# zsh syntax hilighting
+#------------------------------------------
+#zle_highlight=(default:fg=blue isearch:bold,fg=red)
+if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi

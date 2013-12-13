@@ -1,52 +1,73 @@
 "----------------------------------------------"
-" bundle
+" NeoBundle
 "----------------------------------------------"
 set nocompatible
-filetype off
-set rtp+=~/.vim/vundle.git/
-call vundle#rc()
-filetype plugin on
-"----------------"
-" syntax
-"----------------"
-Bundle 'groenewege/vim-less'
-Bundle 'endel/actionscript.vim'
-Bundle 'cespare/mxml.vim'
-"----------------"
-" git
-"----------------"
-Bundle 'gregsexton/gitv'
-Bundle 'tpope/vim-fugitive'
-"----------------"
-" colorscheme
-"----------------"
-Bundle 'ujihisa/unite-colorscheme'
-Bundle 'nanotech/jellybeans.vim'
-Bundle 'jelera/vim-gummybears-colorscheme'
-Bundle 'tomasr/molokai'
-Bundle 'altercation/solarized'
-Bundle 'vim-scripts/newspaper.vim'
+if has('vim_starting')
+  set runtimepath+=~/Configuration/vim/bundle/neobundle.vim
+endif
+call neobundle#rc(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
 "----------------"
 " Shougo
 "----------------"
-Bundle 'unite.vim'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'unite.vim'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/vimfiler'
+""----------------"
+"" syntax
+""----------------"
+NeoBundle 'vim-scripts/smarty.vim'
+NeoBundle 'groenewege/vim-less'
+"NeoBundle 'endel/actionscript.vim'
+"NeoBundle 'cespare/mxml.vim'
+"----------------"
+" git
+"----------------"
+"NeoBundle 'gregsexton/gitv'
+NeoBundle 'tpope/vim-fugitive'
+"----------------"
+" colorscheme
+"----------------"
+NeoBundle 'baeuml/summerfruit256.vim'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'sickill/vim-monokai'
+NeoBundle 'endel/vim-github-colorscheme'
+NeoBundle 'vim-scripts/pyte'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'twilight'
+NeoBundle 'Zenburn'
+"----------------"
+" file-search
+"----------------"
+NeoBundle 'rking/ag.vim'
 "----------------"
 " others
 "----------------"
-Bundle 'The-NERD-tree'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'kien/ctrlp.vim'
-Bundle 'majutsushi/tagbar'
-Bundle 'thinca/vim-quickrun'
-Bundle 'surround.vim'
-Bundle 'sjl/gundo.vim'
-Bundle 'vim-scripts/yanktmp.vim'
-Bundle 'vim-scripts/grep.vim'
+NeoBundle 'The-NERD-tree'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'majutsushi/tagbar'
+"NeoBundle 'surround.vim'
+"NeoBundle 'sjl/gundo.vim'
+"NeoBundle 'vim-scripts/yanktmp.vim'
+"NeoBundle 'vim-scripts/grep.vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-ref'
+"NeoBundle 'taglist.vim'
+"NeoBundle 'Source-Explorer-srcexpl.vim'
+"NeoBundle 'trinity.vim'
+
+"----------------"
+" NeoBundleCheck
+"----------------"
+filetype plugin indent on
+NeoBundleCheck
 
 "----------------------------------------------"
 " general
@@ -54,23 +75,45 @@ Bundle 'vim-scripts/grep.vim'
 syntax on
 set number
 set title
-set smartindent
-set autoindent
 set showmatch
 setlocal omnifunc=syntaxcomplete#Complete
-"set guifont=Ubuntu\ \Mono\ \12
-colorscheme jellybeans
+set guifont=Source\ Code\ Pro:h14
+colorscheme Monokai
 imap <C-f> <C-x><C-o>
 set binary
 set noeol
 set nobackup
 "----------------"
-" tab
+" search
 "----------------"
+set ignorecase
+set smartcase
+set incsearch
+
+"----------------"
+" indent
+"----------------"
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
-set ts=4
-set softtabstop=4
-set shiftwidth=4
+set smartindent
+set autoindent
+""----------------"
+"" indent by filetype
+""----------------"
+augroup vimrc
+autocmd! FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd! FileType css  setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd! FileType less setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd! FileType js   setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd! FileType php  setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd! FileType as   setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd! FileType java setlocal shiftwidth=4 tabstop=4 softtabstop=4
+augroup END
+""----------------"
+"" others
+""----------------"
 highlight TagKey guibg=#b5d68f
 match TagKey /	/
 set list
@@ -86,14 +129,15 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 " hilight of line "
 "----------------"
 set cursorline
-highlight CursorLine ctermbg=Black
+highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+"highlight CursorLine ctermbg=Black
 
 "----------------------------------------------"
 " yanktmp "
 "----------------------------------------------"
-map <silent> sy :call YanktmpYank()<CR> 
-map <silent> sp :call YanktmpPaste_p()<CR> 
-map <silent> sP :call YanktmpPaste_P()<CR> 
+"map <silent> sy :call YanktmpYank()<CR> 
+"map <silent> sp :call YanktmpPaste_p()<CR> 
+"map <silent> sP :call YanktmpPaste_P()<CR> 
 
 "----------------------------------------------"
 " unite.vim
@@ -107,23 +151,42 @@ nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mr
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 let g:unite_enable_start_insert=1
+"----------------"
+" unite grep
+"----------------"
+" backend ag
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+let g:unite_source_grep_recursive_opt = ''
+let g:unite_source_grep_max_candidates = 200
+" keymap
+nnoremap <silent> ,ug :<C-u>Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+"vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
 
-"----------------------------------------------"
-" unite.colorscheme
-"----------------------------------------------"
+""----------------------------------------------"
+"" unite.colorscheme
+""----------------------------------------------"
 nnoremap <silent> ,uc :<C-u>Unite colorscheme -auto-preview<CR>
-
+"
+""----------------------------------------------"
+"" solarized
+""----------------------------------------------"
+call togglebg#map("<F5>")
+"
 "----------------------------------------------"
 " vim-indent-cuides
 "----------------------------------------------"
 nmap <silent> ,ig <Plug>IndentGuidesToggle
 "GUI"
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
+let g:indent_guides_color_change_percent = 20
 let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black   ctermbg=black
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=black ctermbg=black
+hi IndentGuidesOdd   ctermbg=green
+hi IndentGuidesEven  ctermbg=grey
 
 "----------------------------------------------"
 "AS3
@@ -140,6 +203,54 @@ let g:neocomplcache_enable_at_startup = 1
 "----------------------------------------------"
 nmap <F8> :TagbarToggle<CR>
 
+"----------------------------------------------"
+" vim-lightline
+"----------------------------------------------"
+let g:lightline = {
+  \ 'colorscheme': 'wombat'
+  \ }
+set laststatus=2
+
+"----------------------------------------------"
+" ctags / taglist
+"----------------------------------------------"
+"let Tlist_Ctags_Cmd='/usr/local/bin/ctags' "homebrew前提
+"let g:SrcExpl_updateTagsCmd = "/usr/local/bin/ctags --sort=foldcase -R ."
+"let tlist_php_settings = 'php;c:class;d:constant;f:function'
+
+"----------------------------------------------"
+" Source-Explorer-srcexpl
+"----------------------------------------------"
+""自動でプレビューを表示する。TODO:うざくなってきたら手動にする。またはソースを追う時だけ自動に変更する。
+"let g:SrcExpl_RefreshTime   = 1
+""プレビューウインドウの高さ
+"let g:SrcExpl_WinHeight     = 9
+""tagsは自動で作成する
+"let g:SrcExpl_UpdateTags    = 1
+""マッピング
+"let g:SrcExpl_RefreshMapKey = "<Space>"
+"let g:SrcExpl_GoBackMapKey  = "<C-b>"
+"nmap <F8> :SrcExplToggle<CR>
+
+""----------------------------------------------"
+"" cscope
+""----------------------------------------------"
+""if has("cscope")
+""  set csprg=/usr/local/bin/cscope
+""  set csto=0
+""  set cst
+""  set nocsverb
+""  " add any database in current directory
+""  if filereadable("cscope.out")
+""    cs add cscope.out
+""  " else add database pointed to by environment 
+""  elseif $CSCOPE_DB != ""
+""    cs add $CSCOPE_DB
+""  endif
+""  set csverb
+""  set cscopequickfix=s-,c-,d-,i-,t-,e-
+""endif
+"
 "----------------------------------------------"
 " ctrlp
 "----------------------------------------------"
@@ -165,3 +276,26 @@ let g:ctrlp_prompt_mappings = {
 " カーソル下の単語をGrepBufferする
 "nnoremap :GrepBuffer
 "minibufexpl.vim
+
+"----------------------------------------------"
+" vim-ref
+"----------------------------------------------"
+nmap ,re :<C-u>Ref<Space>
+"----------------"
+" PHP
+"----------------"
+let g:ref_phpmanual_path = $HOME . '/Documents/app_data/vim-ref/phpmanual/'
+"----------------------------------------------"
+" vimfiler
+"----------------------------------------------"
+let g:vimfiler_as_default_explorer = 1
+"----------------------------------------------"
+" the_silver_searcher
+"----------------------------------------------"
+"let g:agprg="<custom-ag-path-goes-here> --column"
+"let g:unite_source_grep_command = 'ag'
+"let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+"let g:unite_source_grep_recursive_opt = ''
+"let g:unite_source_grep_max_candidates = 200
+"nnoremap <silent> ,vf :<C-u>VimFilerBufferDir -split -simple -winwidth=30 -quit<CR>
+"nnoremap <silent> ,vp :<C-u>VimFiler -project -split -simple -winwidth=30 -quit<CR>
