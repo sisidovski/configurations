@@ -49,6 +49,7 @@ NeoBundle 'rking/ag.vim'
 "----------------"
 " others
 "----------------"
+NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'The-NERD-tree'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'itchyny/lightline.vim'
@@ -348,7 +349,6 @@ let g:ctrlp_prompt_mappings = {
 " :Gb でGrepBufferする
 " command! -nargs=1 Gb :GrepBuffer 
 " カーソル下の単語をGrepBufferする
-"nnoremap :GrepBuffer
 "minibufexpl.vim
 
 "----------------------------------------------"
@@ -386,3 +386,18 @@ nmap <Leader>gk <Plug>(signify-prev-hunk)zz
 nmap <Leader>gh <Plug>(signify-toggle-highlight)
 " 差分表示をトグルする(:SignifyToggleコマンドと同じ)
 nmap <Leader>gt <Plug>(signify-toggle)
+
+"----------------------------------------------"
+" vim easy motion
+"----------------------------------------------"
+let g:EasyMotion_do_mapping = 0 "Disable default mappings
+" Use uppercase target labels and type as a lower case
+let g:EasyMotion_use_upper = 1
+ " type `l` and match `l`&`L`
+let g:EasyMotion_smartcase = 1
+" find motions `s{char}{char}{target}`
+nmap s <Plug>(easymotion-s2)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
