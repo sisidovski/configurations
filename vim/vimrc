@@ -14,29 +14,30 @@ NeoBundle 'Shougo/vimproc'
 NeoBundle 'unite.vim'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
+"NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/vimfiler'
 ""----------------"
 "" syntax
 ""----------------"
 NeoBundle 'vim-scripts/smarty.vim'
 NeoBundle 'groenewege/vim-less'
+NeoBundle 'kchmck/vim-coffee-script'
 "NeoBundle 'endel/actionscript.vim'
 "NeoBundle 'cespare/mxml.vim'
 "----------------"
-" git
+" vcs
 "----------------"
+NeoBundle 'mhinz/vim-signify'
 "NeoBundle 'gregsexton/gitv'
 NeoBundle 'tpope/vim-fugitive'
 "----------------"
 " colorscheme
 "----------------"
-NeoBundle 'baeuml/summerfruit256.vim'
-NeoBundle 'tomasr/molokai'
 NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'cocopon/iceberg.vim'
+NeoBundle 'tomasr/molokai'
 NeoBundle 'sickill/vim-monokai'
-NeoBundle 'endel/vim-github-colorscheme'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'vim-scripts/pyte'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'twilight'
@@ -150,18 +151,26 @@ nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
 let g:unite_enable_start_insert=1
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
 "----------------"
 " unite grep
 "----------------"
-" backend ag
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--nocolor --nogroup'
-let g:unite_source_grep_recursive_opt = ''
-let g:unite_source_grep_max_candidates = 200
-" keymap
-nnoremap <silent> ,ug :<C-u>Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
-"vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+" unite grep に ag(The Silver Searcher) を使う
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+" カーソル位置の単語をgrep検索
+nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+" grep検索結果の再呼出
+nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
 
 ""----------------------------------------------"
 "" unite.colorscheme
@@ -206,10 +215,75 @@ nmap <F8> :TagbarToggle<CR>
 "----------------------------------------------"
 " vim-lightline
 "----------------------------------------------"
+"let g:lightline = {
+"    \ 'colorscheme': 'wombat',
+"    \ 'component': {
+"    \   'readonly': '%{&readonly?"⭤":""}',
+"    \ },
+"    \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"    \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+"    \ }
+"set laststatus=2
 let g:lightline = {
-  \ 'colorscheme': 'wombat'
-  \ }
-set laststatus=2
+      \ 'colorscheme': 'solarized',
+      \ 'mode_map': { 'c': 'NORMAL' },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ }
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
+        \  &ft == 'unite' ? unite#get_status_string() : 
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? '⭠ '._ : ''
+  endif
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
 
 "----------------------------------------------"
 " ctags / taglist
@@ -299,3 +373,16 @@ let g:vimfiler_as_default_explorer = 1
 "let g:unite_source_grep_max_candidates = 200
 "nnoremap <silent> ,vf :<C-u>VimFilerBufferDir -split -simple -winwidth=30 -quit<CR>
 "nnoremap <silent> ,vp :<C-u>VimFiler -project -split -simple -winwidth=30 -quit<CR>
+
+
+"----------------------------------------------"
+" signify (vcs manager)
+"----------------------------------------------"
+" 次の差分箇所に移動
+nmap <Leader>gj <Plug>(signify-next-hunk)zz
+" 前の差分箇所に移動
+nmap <Leader>gk <Plug>(signify-prev-hunk)zz
+" 差分箇所をハイライト
+nmap <Leader>gh <Plug>(signify-toggle-highlight)
+" 差分表示をトグルする(:SignifyToggleコマンドと同じ)
+nmap <Leader>gt <Plug>(signify-toggle)

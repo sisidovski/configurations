@@ -85,7 +85,7 @@ if =ls --version 2>&1 | grep -q GNU; then
     alias chmod='chmod -cv'
     alias chmod!='chmod -R'
     alias chacl!='chacl -r'
-    alias grep='grep -n --color'
+    alias grep='grep --color'
     alias getfacl='getfacl --tabular'
     alias getfacl!='getfacl -LR'
     alias setfacl!='setfacl -LR'
@@ -113,7 +113,7 @@ else
     alias chgrp!='chgrp -R'
     alias chmod='chmod -v'
     alias chmod!='chmod -R'
-    alias grep='grep -n'
+    alias grep='grep'
     alias du1='du -d 1'
     alias psx='ps -AHo pid,user,group,%cpu,%mem,nlwp,vsize,rssize,tname,stat,ni,start_time,cputime,args'
 fi
@@ -196,8 +196,8 @@ bindkey "\e[Z" reverse-menu-complete
 
 
 # Completion configuration
-fpath=(~/.zsh/fucntions/Completion ${fpath})
-fpath=(~/.zsh-completions $fpath)
+#fpath=(~/.zsh/fucntions/Completion ${fpath})
+fpath=(~/zsh-completions/src $fpath)
 
 #for f in $HOME/.zsh/*(N); do
 #    source f

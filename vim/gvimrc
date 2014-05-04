@@ -1,6 +1,6 @@
-colorscheme Molokai
+colorscheme iceberg
 "set guifont=Andale\ Mono:h13
-set guifont=Source\ Code\ Pro\ Light\ for\ Powerline:h12
+set guifont=Source\ Code\ Pro\ for\ Powerline:h13
 set transparency=5
 set linespace=0
 " underline on current line

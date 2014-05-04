@@ -66,8 +66,6 @@ alias ant="LC_ALL=en ant"
 alias ctags="/usr/local/Library/LinkedKegs/ctags"
 
 #####  zsh completion   #####
-#source .zsh/git-completion.bash
-#fpath=($HOME/.zsh/zsh-competions/src $fpath)
 
 #####  brew completion   #####
 f=(~/.zsh/functions/ $f)
@@ -80,3 +78,6 @@ export PHPUNIT_LIBDIR=/usr/lib/php/pear/data
 
 #####  selenium  #####
 #export SELENIUM_LIBRARY=/Development/Tools/lib/
+
+#####  pkg_config_path for cario and node-canvas  #####
+export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig   
