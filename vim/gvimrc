@@ -6,3 +6,8 @@ set linespace=0
 " underline on current line
 highlight CursorLine gui=underline guifg=NONE guibg=NONE
 set guioptions-=T
+
+" 縦幅　デフォルトは24
+set lines=60
+" 横幅　デフォルトは80
+set columns=160
