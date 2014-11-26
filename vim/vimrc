@@ -13,17 +13,23 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'unite.vim'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete'
 "NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/vimfiler'
-""----------------"
-"" syntax
-""----------------"
-NeoBundle 'vim-scripts/smarty.vim'
+"----------------"
+" syntax
+"----------------"
+"NeoBundle 'vim-scripts/smarty.vim'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'kchmck/vim-coffee-script'
 "NeoBundle 'endel/actionscript.vim'
 "NeoBundle 'cespare/mxml.vim'
+NeoBundle 'digitaltoad/vim-jade'
+"----------------"
+" markdown
+"----------------"
+"NeoBundle 'tpope/vim-markdown'
+"NeoBundle 'tyru/open-browser.vim'
 "----------------"
 " vcs
 "----------------"
@@ -33,37 +39,31 @@ NeoBundle 'tpope/vim-fugitive'
 "----------------"
 " colorscheme
 "----------------"
-NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'tomasr/molokai'
-NeoBundle 'sickill/vim-monokai'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'vim-scripts/pyte'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'twilight'
-NeoBundle 'Zenburn'
 "----------------"
 " file-search
 "----------------"
-NeoBundle 'rking/ag.vim'
+"NeoBundle 'rking/ag.vim'
 "----------------"
 " others
 "----------------"
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'The-NERD-tree'
+NeoBundle 'osyo-manga/vim-anzu'
+NeoBundle 'mattn/benchvimrc-vim'
+"NeoBundle 'Lokaltog/vim-easymotion'
+"NeoBundle 'The-NERD-tree'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'majutsushi/tagbar'
-"NeoBundle 'surround.vim'
-"NeoBundle 'sjl/gundo.vim'
-"NeoBundle 'vim-scripts/yanktmp.vim'
-"NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
-"NeoBundle 'taglist.vim'
-"NeoBundle 'Source-Explorer-srcexpl.vim'
-"NeoBundle 'trinity.vim'
+"NeoBundle 'gorodinskiy/vim-coloresque'
+"----------------"
+" golang
+"----------------"
+NeoBundle 'fatih/vim-go'
 
 "----------------"
 " NeoBundleCheck
@@ -80,11 +80,17 @@ set title
 set showmatch
 setlocal omnifunc=syntaxcomplete#Complete
 set guifont=Source\ Code\ Pro:h14
-colorscheme Monokai
+colorscheme molokai
 imap <C-f> <C-x><C-o>
 set binary
-set noeol
 set nobackup
+set backspace=indent,eol,start
+set nowrap
+set ruler
+set noundofile
+"----------------"
+" tab
+"----------------"
 "----------------"
 " search
 "----------------"
@@ -132,7 +138,6 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 "----------------"
 set cursorline
 highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
-"highlight CursorLine ctermbg=Black
 
 "----------------------------------------------"
 " yanktmp "
@@ -172,12 +177,6 @@ nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W
 nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 " grep検索結果の再呼出
 nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
-
-""----------------------------------------------"
-"" unite.colorscheme
-""----------------------------------------------"
-nnoremap <silent> ,uc :<C-u>Unite colorscheme -auto-preview<CR>
-"
 ""----------------------------------------------"
 "" solarized
 ""----------------------------------------------"
@@ -204,9 +203,13 @@ hi IndentGuidesEven  ctermbg=grey
 "au BufNewFile,BufRead *.as set ft=actionscript
 
 "----------------------------------------------"
-" neocmplcache
+" neocmplete
 "----------------------------------------------"
-let g:neocomplcache_enable_at_startup = 1
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 "----------------------------------------------"
 " tagbar
@@ -388,16 +391,25 @@ nmap <Leader>gh <Plug>(signify-toggle-highlight)
 nmap <Leader>gt <Plug>(signify-toggle)
 
 "----------------------------------------------"
-" vim easy motion
+" vim-go
 "----------------------------------------------"
-let g:EasyMotion_do_mapping = 0 "Disable default mappings
-" Use uppercase target labels and type as a lower case
-let g:EasyMotion_use_upper = 1
- " type `l` and match `l`&`L`
-let g:EasyMotion_smartcase = 1
-" find motions `s{char}{char}{target}`
-nmap s <Plug>(easymotion-s2)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+if !exists('g:neocomplete#omni_patterns')
+    let g:neocomplete#omni_patterns = {}
+endif
+let g:neocomplete#omni_patterns.go = '\h\w*\.\?'
+
+"let g:quickrun_config['go'] = {
+"          \ 'command': 'go',
+"          \ 'exec': ['%c run %s']
+"          \ }
+
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap gd <Plug>(go-def)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gl :GoLint<CR>
