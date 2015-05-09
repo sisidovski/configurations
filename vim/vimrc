@@ -30,6 +30,8 @@ NeoBundle 'Shougo/vimfiler'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'slim-template/vim-slim'
+NeoBundle 'motus/pig.vim'
 "----------------"
 " markdown
 "----------------"
@@ -56,7 +58,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'itchyny/lightline.vim'
+"NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
@@ -64,7 +66,7 @@ NeoBundle 'thinca/vim-ref'
 "----------------"
 " golang
 "----------------"
-NeoBundle 'fatih/vim-go'
+"NeoBundle 'fatih/vim-go'
 
 "----------------"
 " NeoBundleCheck
@@ -89,6 +91,7 @@ set backspace=indent,eol,start
 set nowrap
 set ruler
 set noundofile
+set encoding=utf-8
 "----------------"
 " tab
 "----------------"
@@ -220,75 +223,75 @@ nmap <F8> :TagbarToggle<CR>
 "----------------------------------------------"
 " vim-lightline
 "----------------------------------------------"
-"let g:lightline = {
-"    \ 'colorscheme': 'wombat',
-"    \ 'component': {
-"    \   'readonly': '%{&readonly?"⭤":""}',
-"    \ },
-"    \ 'separator': { 'left': '⮀', 'right': '⮂' },
-"    \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-"    \ }
-"set laststatus=2
-let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ 'mode_map': { 'c': 'NORMAL' },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \ },
-      \ 'separator': { 'left': '⮀', 'right': '⮂' },
-      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-      \ }
-
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
-endfunction
-
-function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
-        \  &ft == 'unite' ? unite#get_status_string() : 
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? '⭠ '._ : ''
-  endif
-  return ''
-endfunction
-
-function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
+" let g:lightline = {
+"     \ 'colorscheme': 'wombat',
+"     \ 'component': {
+"     \   'readonly': '%{&readonly?"⭤":""}',
+"     \ },
+"     \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"     \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+"     \ }
+" set laststatus=2
+" let g:lightline = {
+"       \ 'colorscheme': 'solarized',
+"       \ 'mode_map': { 'c': 'NORMAL' },
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'modified': 'MyModified',
+"       \   'readonly': 'MyReadonly',
+"       \   'fugitive': 'MyFugitive',
+"       \   'filename': 'MyFilename',
+"       \   'fileformat': 'MyFileformat',
+"       \   'filetype': 'MyFiletype',
+"       \   'fileencoding': 'MyFileencoding',
+"       \   'mode': 'MyMode',
+"       \ },
+"       \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"       \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+"       \ }
+" 
+" function! MyModified()
+"   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+" endfunction
+" 
+" function! MyReadonly()
+"   return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+" endfunction
+" 
+" function! MyFilename()
+"   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
+"         \  &ft == 'unite' ? unite#get_status_string() : 
+"         \  &ft == 'vimshell' ? vimshell#get_status_string() :
+"         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+"         \ ('' != MyModified() ? ' ' . MyModified() : '')
+" endfunction
+" 
+" function! MyFugitive()
+"   if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+"     let _ = fugitive#head()
+"     return strlen(_) ? '⭠ '._ : ''
+"   endif
+"   return ''
+" endfunction
+" 
+" function! MyFileformat()
+"   return winwidth(0) > 70 ? &fileformat : ''
+" endfunction
+" 
+" function! MyFiletype()
+"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+" endfunction
+" 
+" function! MyFileencoding()
+"   return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+" endfunction
+" 
+" function! MyMode()
+"   return winwidth(0) > 60 ? lightline#mode() : ''
+" endfunction
 
 "----------------------------------------------"
 " ctags / taglist
@@ -358,11 +361,11 @@ let g:ctrlp_prompt_mappings = {
 "----------------------------------------------"
 " vim-ref
 "----------------------------------------------"
-nmap ,re :<C-u>Ref<Space>
+"nmap ,re :<C-u>Ref<Space>
 "----------------"
 " PHP
 "----------------"
-let g:ref_phpmanual_path = $HOME . '/Documents/app_data/vim-ref/phpmanual/'
+"let g:ref_phpmanual_path = $HOME . '/Documents/app_data/vim-ref/phpmanual/'
 "----------------------------------------------"
 " vimfiler
 "----------------------------------------------"
@@ -394,23 +397,23 @@ nmap <Leader>gt <Plug>(signify-toggle)
 "----------------------------------------------"
 " vim-go
 "----------------------------------------------"
-if !exists('g:neocomplete#omni_patterns')
-    let g:neocomplete#omni_patterns = {}
-endif
-let g:neocomplete#omni_patterns.go = '\h\w*\.\?'
-
-"let g:quickrun_config['go'] = {
-"          \ 'command': 'go',
-"          \ 'exec': ['%c run %s']
-"          \ }
-
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap gd <Plug>(go-def)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gl :GoLint<CR>
+" if !exists('g:neocomplete#omni_patterns')
+"     let g:neocomplete#omni_patterns = {}
+" endif
+" let g:neocomplete#omni_patterns.go = '\h\w*\.\?'
+" 
+" "let g:quickrun_config['go'] = {
+" "          \ 'command': 'go',
+" "          \ 'exec': ['%c run %s']
+" "          \ }
+" 
+" au FileType go nmap <Leader>i <Plug>(go-info)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+" au FileType go nmap <leader>gb <Plug>(go-build)
+" au FileType go nmap <leader>gt <Plug>(go-test)
+" au FileType go nmap gd <Plug>(go-def)
+" au FileType go nmap <Leader>ds <Plug>(go-def-split)
+" au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+" au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+" au FileType go nmap <Leader>gl :GoLint<CR>
