@@ -1,13 +1,15 @@
 "----------------------------------------------"
 " NeoBundle
 "----------------------------------------------"
-set nocompatible
 if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
   set runtimepath+=~/Configuration/vim/bundle/neobundle.vim
 endif
+
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-call neobundle#end()
 "----------------"
 " Shougo
 "----------------"
@@ -32,6 +34,8 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'motus/pig.vim'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
 "----------------"
 " markdown
 "----------------"
@@ -63,6 +67,7 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'kovisoft/slimv'
 "----------------"
 " golang
 "----------------"
@@ -71,6 +76,7 @@ NeoBundle 'thinca/vim-ref'
 "----------------"
 " NeoBundleCheck
 "----------------"
+call neobundle#end()
 filetype plugin indent on
 NeoBundleCheck
 
@@ -111,9 +117,9 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set autoindent
-""----------------"
-"" indent by filetype
-""----------------"
+"----------------"
+" indent by filetype
+"----------------"
 augroup vimrc
 autocmd! FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd! FileType css  setlocal shiftwidth=2 tabstop=2 softtabstop=2
@@ -123,32 +129,32 @@ autocmd! FileType php  setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd! FileType as   setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd! FileType java setlocal shiftwidth=4 tabstop=4 softtabstop=4
 augroup END
-""----------------"
-"" others
-""----------------"
+"----------------"
+" others
+"----------------"
 highlight TagKey guibg=#b5d68f
 match TagKey /	/
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-"----------------"
-"Escの2回押しでハイライト消去
-"----------------"
-"nmap ;nohlsearch
-"----------------"
-" tab:extension
-"----------------"
 "----------------"
 " hilight of line "
 "----------------"
 set cursorline
 highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
-"----------------------------------------------"
-" yanktmp "
-"----------------------------------------------"
-"map <silent> sy :call YanktmpYank()<CR> 
-"map <silent> sp :call YanktmpPaste_p()<CR> 
-"map <silent> sP :call YanktmpPaste_P()<CR> 
+"----------------"
+" mkdir
+"----------------"
+augroup vimrc-auto-mkdir  " {{{
+  autocmd!
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:auto_mkdir(dir, force)  " {{{
+    if !isdirectory(a:dir) && (a:force ||
+    \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction  " }}}
+augroup END  " }}}
 
 "----------------------------------------------"
 " unite.vim
@@ -202,11 +208,6 @@ hi IndentGuidesOdd   ctermbg=green
 hi IndentGuidesEven  ctermbg=grey
 
 "----------------------------------------------"
-"AS3
-"----------------------------------------------"
-"au BufNewFile,BufRead *.as set ft=actionscript
-
-"----------------------------------------------"
 " neocmplete
 "----------------------------------------------"
 let g:acp_enableAtStartup = 0
@@ -221,118 +222,12 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 nmap <F8> :TagbarToggle<CR>
 
 "----------------------------------------------"
-" vim-lightline
-"----------------------------------------------"
-" let g:lightline = {
-"     \ 'colorscheme': 'wombat',
-"     \ 'component': {
-"     \   'readonly': '%{&readonly?"⭤":""}',
-"     \ },
-"     \ 'separator': { 'left': '⮀', 'right': '⮂' },
-"     \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-"     \ }
-" set laststatus=2
-" let g:lightline = {
-"       \ 'colorscheme': 'solarized',
-"       \ 'mode_map': { 'c': 'NORMAL' },
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \   'modified': 'MyModified',
-"       \   'readonly': 'MyReadonly',
-"       \   'fugitive': 'MyFugitive',
-"       \   'filename': 'MyFilename',
-"       \   'fileformat': 'MyFileformat',
-"       \   'filetype': 'MyFiletype',
-"       \   'fileencoding': 'MyFileencoding',
-"       \   'mode': 'MyMode',
-"       \ },
-"       \ 'separator': { 'left': '⮀', 'right': '⮂' },
-"       \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
-"       \ }
-" 
-" function! MyModified()
-"   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-" endfunction
-" 
-" function! MyReadonly()
-"   return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
-" endfunction
-" 
-" function! MyFilename()
-"   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-"         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() : 
-"         \  &ft == 'unite' ? unite#get_status_string() : 
-"         \  &ft == 'vimshell' ? vimshell#get_status_string() :
-"         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-"         \ ('' != MyModified() ? ' ' . MyModified() : '')
-" endfunction
-" 
-" function! MyFugitive()
-"   if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-"     let _ = fugitive#head()
-"     return strlen(_) ? '⭠ '._ : ''
-"   endif
-"   return ''
-" endfunction
-" 
-" function! MyFileformat()
-"   return winwidth(0) > 70 ? &fileformat : ''
-" endfunction
-" 
-" function! MyFiletype()
-"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-" endfunction
-" 
-" function! MyFileencoding()
-"   return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-" endfunction
-" 
-" function! MyMode()
-"   return winwidth(0) > 60 ? lightline#mode() : ''
-" endfunction
-
-"----------------------------------------------"
 " ctags / taglist
 "----------------------------------------------"
 "let Tlist_Ctags_Cmd='/usr/local/bin/ctags' "homebrew前提
 "let g:SrcExpl_updateTagsCmd = "/usr/local/bin/ctags --sort=foldcase -R ."
 "let tlist_php_settings = 'php;c:class;d:constant;f:function'
 
-"----------------------------------------------"
-" Source-Explorer-srcexpl
-"----------------------------------------------"
-""自動でプレビューを表示する。TODO:うざくなってきたら手動にする。またはソースを追う時だけ自動に変更する。
-"let g:SrcExpl_RefreshTime   = 1
-""プレビューウインドウの高さ
-"let g:SrcExpl_WinHeight     = 9
-""tagsは自動で作成する
-"let g:SrcExpl_UpdateTags    = 1
-""マッピング
-"let g:SrcExpl_RefreshMapKey = "<Space>"
-"let g:SrcExpl_GoBackMapKey  = "<C-b>"
-"nmap <F8> :SrcExplToggle<CR>
-
-""----------------------------------------------"
-"" cscope
-""----------------------------------------------"
-""if has("cscope")
-""  set csprg=/usr/local/bin/cscope
-""  set csto=0
-""  set cst
-""  set nocsverb
-""  " add any database in current directory
-""  if filereadable("cscope.out")
-""    cs add cscope.out
-""  " else add database pointed to by environment 
-""  elseif $CSCOPE_DB != ""
-""    cs add $CSCOPE_DB
-""  endif
-""  set csverb
-""  set cscopequickfix=s-,c-,d-,i-,t-,e-
-""endif
-"
 "----------------------------------------------"
 " ctrlp
 "----------------------------------------------"
@@ -349,38 +244,15 @@ let g:ctrlp_prompt_mappings = {
   \ 'AcceptSelection("t")': ['<cr>', '<c-m>'],
   \ }
 
-
-"----------------------------------------------"
-" grep.vim
-"----------------------------------------------"
-" :Gb でGrepBufferする
-" command! -nargs=1 Gb :GrepBuffer 
-" カーソル下の単語をGrepBufferする
-"minibufexpl.vim
-
-"----------------------------------------------"
-" vim-ref
-"----------------------------------------------"
-"nmap ,re :<C-u>Ref<Space>
-"----------------"
-" PHP
-"----------------"
-"let g:ref_phpmanual_path = $HOME . '/Documents/app_data/vim-ref/phpmanual/'
 "----------------------------------------------"
 " vimfiler
 "----------------------------------------------"
 let g:vimfiler_as_default_explorer = 1
-"----------------------------------------------"
-" the_silver_searcher
-"----------------------------------------------"
-"let g:agprg="<custom-ag-path-goes-here> --column"
-"let g:unite_source_grep_command = 'ag'
-"let g:unite_source_grep_default_opts = '--nocolor --nogroup'
-"let g:unite_source_grep_recursive_opt = ''
-"let g:unite_source_grep_max_candidates = 200
-"nnoremap <silent> ,vf :<C-u>VimFilerBufferDir -split -simple -winwidth=30 -quit<CR>
-"nnoremap <silent> ,vp :<C-u>VimFiler -project -split -simple -winwidth=30 -quit<CR>
 
+"----------------------------------------------"
+" react.js
+"----------------------------------------------"
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 "----------------------------------------------"
 " signify (vcs manager)
@@ -417,3 +289,28 @@ nmap <Leader>gt <Plug>(signify-toggle)
 " au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 " au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 " au FileType go nmap <Leader>gl :GoLint<CR>
+
+"----------------------------------------------"
+" lisp
+"----------------------------------------------"
+" let g:slimv_swank_cmd = '!osascript -e "tell application \"Terminal\" to do script \"sbcl --load ~/.vim/bundle/slimv.vim/slime/start-swank.lisp\""' 
+" let g:paredit_mode=1
+" let g:paredit_electric_return = 0
+" function! s:generate_lisp_tags()
+"   let g:slimv_ctags =  'ctags -a -f '.$HOME.'/.vim/tags/lisp.tags '.expand('%:p').' --language-force=Lisp'
+"   call SlimvGenerateTags()
+" endfunction
+" command! -nargs=0 GenerateLispTags call <SID>generate_lisp_tags()
+" function! s:generate_lisp_tags_recursive()
+"   let g:slimv_ctags =  'ctags -a -f '.$HOME.'/.vim/tags/lisp.tags -R '.expand('%:p:h').' --language-force=Lisp'
+"   call SlimvGenerateTags()
+" endfunction
+" command! -nargs=0 GenerateLispTagsRecursive call <SID>generate_lisp_tags_recursive()
+" let g:slimv_repl_split = 4
+" let g:slimv_repl_name = 'REPL'
+" let g:slimv_repl_simple_eval = 0
+" let g:slimv_lisp = '/usr/local/bin/clisp'
+" let g:slimv_impl = 'clisp'
+" let g:slimv_preferred = 'clisp'
+" let g:lisp_rainbow=1
+" autocmd BufNewFile,BufRead *.asd   set filetype=lisp

@@ -166,6 +166,7 @@ alias -s html=w3m
 alias -s exe=mono
 alias -s jar='java -jar'
 alias -s {sln,csproj,vbproj,fsproj}=xbuild
+alias tmux="TERM=screen-256color-bce tmux"
 
 #eval `dircolors \`if [ -f $HOME/.DIR_COLORS ]; then
 #    echo $HOME/.dir_colors
