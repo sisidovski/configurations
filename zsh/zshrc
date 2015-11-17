@@ -251,3 +251,17 @@ fi
 export PATH="/usr/local/heroku/bin:$PATH"
 
 alias gti='git'
+
+typeset -xT SUDO_PATH sudo_path
+sudo_path=(
+    /usr/local/sbin(N-/)
+    /usr/sbin(N-/)
+    /sbin(N-/)
+    /opt/sbin(N-/)
+)
+
+path=(
+  /user/local/bin(N-/)
+  /usr/local/share/npm/bin(N-/)
+  $path
+)
