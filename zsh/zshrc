@@ -261,7 +261,12 @@ sudo_path=(
 )
 
 path=(
+  $HOME/.anyenv/bin(N-/)
+  $HOME/.nodebrew/current/bin(N-/)
+  $HOME/.phpenv/bin(N-/)
   /user/local/bin(N-/)
   /usr/local/share/npm/bin(N-/)
   $path
 )
+eval "$(phpenv init -)"
+eval "$(anyenv init -)"

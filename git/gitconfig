@@ -6,7 +6,7 @@
   editor = vim
   filemode = false
   autocrlf = input
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/shunya_shishido/.gitignore_global
   whitespace = cr-at-eol
 [i18n]
   logOutputEncoding = utf-8
@@ -23,3 +23,9 @@
   pl = 'pull'
   ps = 'push'
   tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Users/shunya_shishido/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
