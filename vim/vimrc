@@ -52,6 +52,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'scwood/vim-hybrid'
 "----------------"
 " file-search
 "----------------"
@@ -59,6 +60,7 @@ NeoBundle 'rking/ag.vim'
 "----------------"
 " others
 "----------------"
+NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -89,7 +91,8 @@ set title
 set showmatch
 setlocal omnifunc=syntaxcomplete#Complete
 set guifont=Source\ Code\ Pro:h14
-colorscheme molokai
+set background=dark
+colorscheme hybrid
 imap <C-f> <C-x><C-o>
 set binary
 set nobackup
@@ -98,6 +101,7 @@ set nowrap
 set ruler
 set noundofile
 set encoding=utf-8
+set notitle
 "----------------"
 " tab
 "----------------"
@@ -192,7 +196,7 @@ nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 " grep検索結果の再呼出
 nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
 ""----------------------------------------------"
-"" solarized
+"" toggle background
 ""----------------------------------------------"
 call togglebg#map("<F5>")
 "
