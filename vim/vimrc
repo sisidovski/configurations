@@ -36,6 +36,7 @@ NeoBundle 'slim-template/vim-slim'
 NeoBundle 'motus/pig.vim'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'mxw/vim-jsx'
+NeoBundle 'mustache/vim-mustache-handlebars'
 "----------------"
 " markdown
 "----------------"
