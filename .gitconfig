@@ -1,0 +1,8 @@
+[user]
+	name = sisidovski
+[alias]
+	co = checkout
+	st = status
+	br = branch
+	cm = commit
+	di = diff
