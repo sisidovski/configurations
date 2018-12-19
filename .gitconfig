@@ -6,3 +6,4 @@
 	br = branch
 	cm = commit
 	di = diff
+	ps = push
